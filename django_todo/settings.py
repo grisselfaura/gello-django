@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 import dj_database_url
 
@@ -21,13 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6ga#hu!vl-oyff7bmx5qjo*$s9u3#o@$(*_i(qp@ejpz#%_x-m'
+SECRET_KEY = os.environ.get('SECRET_KEY', '6ga#hu!vl-oyff7bmx5qjo*$s9u3#o@$(*_i(qp@ejpz#%_x-m')
+# SECRET_KEY = '6ga#hu!vl-oyff7bmx5qjo*$s9u3#o@$(*_i(qp@ejpz#%_x-m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['learning-django-todo-app.herokuapp.com']
-
+ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')]
+# ALLOWED_HOSTS = ['learning-django-todo-app.herokuapp.com']
 
 # Application definition
 
@@ -84,8 +86,12 @@ WSGI_APPLICATION = 'django_todo.wsgi.application'
 
 # Database modified
 DATABASES = {
-    'default': dj_database_url.parse('postgres://etparndqggqsjr:455db38e76190a642fb64b11ddb348e48abf109746620084fb728dc293311559@ec2-54-246-115-40.eu-west-1.compute.amazonaws.com:5432/db5ug9q64aoa3g')
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
+
+# DATABASES = {
+#     'default': dj_database_url.parse('postgres://etparndqggqsjr:455db38e76190a642fb64b11ddb348e48abf109746620084fb728dc293311559@ec2-54-246-115-40.eu-west-1.compute.amazonaws.com:5432/db5ug9q64aoa3g')
+# }
 
 
 # Password validation
